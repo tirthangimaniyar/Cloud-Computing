@@ -1,0 +1,84 @@
+@model IEnumerable<SalesManagement.Models.Project>
+@{
+    ViewData["Title"] = "Projects Management";
+}
+
+<div class="page-background" style="background-color: #f4f8fb; min-height: 100vh; padding-bottom: 50px;">
+    <div class="page-header px-4 py-3 text-center" style="background-color: #e0f0ff; border-bottom: 2px solid #b3d8f5;">
+        <h2 class="title-management" style="color: #1abc9c; font-size: 26px; font-weight: bold;">Projects Management</h2>
+    </div>
+
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-5 border-0 p-4" style="border-radius: 12px; background: white;">
+            <h5 class="mb-4" style="color: #1abc9c; font-size: 16px; font-weight: bold;">New Project</h5>
+            <form asp-action="Projects" method="post">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-secondary small fw-bold">Project Name</label>
+                        <input type="text" name="ProjectName" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">Proposal ID</label>
+                        <select name="ProposalId" class="form-select">
+                            <option value="">None</option>
+                            @foreach(var prop in (List<SalesManagement.Models.Proposal>)ViewBag.Proposals){
+                                <option value="@prop.Id">@prop.Id - @prop.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">Start Date</label>
+                        <input type="date" name="StartDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">End Date</label>
+                        <input type="date" name="EndDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">Status</label>
+                        <select name="Status" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="submit" class="btn w-100 text-white fw-bold" style="background-color: #1abc9c; border-radius: 6px;">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive rounded shadow-sm">
+            <table class="table table-hover mb-0" style="background: white;">
+                <thead style="background: #b3d8f5; color: #1a3a5c;">
+                    <tr>
+                        <th class="py-3 px-3 fw-bold">ID</th>
+                        <th class="py-3 px-3 fw-bold">Project Name</th>
+                        <th class="py-3 px-3 fw-bold">Proposal ID</th>
+                        <th class="py-3 px-3 fw-bold">Dates</th>
+                        <th class="py-3 px-3 fw-bold">Status</th>
+                        <th class="py-3 px-3 fw-bold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="py-3 px-3">@item.Id</td>
+                            <td class="py-3 px-3 fw-bold">@item.ProjectName</td>
+                            <td class="py-3 px-3 text-secondary">@(item.ProposalId?.ToString() ?? "N/A")</td>
+                            <td class="py-3 px-3 small">@item.StartDate.ToString("MM/dd") - @item.EndDate.ToString("MM/dd")</td>
+                            <td class="py-3 px-3">
+                                <span class="badge" style="background-color: @(item.Status == "Completed" ? "#2ecc71" : item.Status == "Pending" ? "#95a5a6" : "#1abc9c"); border-radius: 20px;">@item.Status</span>
+                            </td>
+                            <td class="py-3 px-3">
+                                <a asp-action="DeleteProject" asp-route-id="@item.Id" class="fw-bold" style="color: #e07070;" onclick="return confirm('Delete?')">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

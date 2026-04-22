@@ -1,0 +1,54 @@
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Sales Dashboard";
+}
+
+<div class="dashboard-page">
+    <div class="floating-circle circle-cyan"></div>
+    <div class="floating-circle circle-pink"></div>
+    
+    <div class="wave-container">
+        <!-- Add a simple SVG wave or canvas animation would go here -->
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position:absolute; bottom:0;">
+            <path fill="#1abc9c" fill-opacity="0.3" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+
+    <div class="dashboard-content px-4">
+        <h1 class="display-3 fw-bold mb-3">Hello Sales</h1>
+        <h3 class="fw-light mb-4">Welcome to Sales Management</h3>
+        <div class="dashboard-divider"></div>
+        
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card bg-transparent border-light text-white p-3 h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase mb-3" style="color: #00f2fe;">My Proposals</h5>
+                        <h2 class="display-4 fw-bold">@ViewBag.ProposalCount</h2>
+                        <a asp-action="Proposals" class="btn btn-outline-info btn-sm mt-3">View All</a>
+                    </div>
+                </div>
+            </div>
+            @if (ViewBag.RecentAnnouncements != null && ((List<SalesManagement.Models.Announcement>)ViewBag.RecentAnnouncements).Any())
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card bg-transparent border-light text-white p-3 h-100 shadow text-start">
+                        <div class="card-body">
+                            <h5 class="card-title text-uppercase mb-3" style="color: #ff0080;">Latest Announcements</h5>
+                            <ul class="list-unstyled">
+                                @foreach (var ann in (List<SalesManagement.Models.Announcement>)ViewBag.RecentAnnouncements)
+                                {
+                                    <li class="mb-2">
+                                        <small class="text-info">@ann.Date</small><br />
+                                        <span>@ann.Message</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

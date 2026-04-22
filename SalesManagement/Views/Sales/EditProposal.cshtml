@@ -1,0 +1,89 @@
+@model SalesManagement.Models.Proposal
+@{
+    ViewData["Title"] = "Edit Proposal";
+}
+
+<div class="container mt-4">
+    <div class="page-header-pink text-center">
+        <h2 class="title-proposals">Edit Proposal</h2>
+    </div>
+
+    <div class="card shadow-sm col-md-10 mx-auto">
+        <div class="card-body">
+            <form asp-action="EditProposal" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedUserId" />
+                <input type="hidden" asp-for="Timestamp" />
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Proposals Name</label>
+                        <input asp-for="Name" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Chance to Close (%)</label>
+                        <input asp-for="ChanceToClose" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Duration (days)</label>
+                        <input asp-for="Duration" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Estimated Budget</label>
+                        <input asp-for="EstimatedBudget" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Amount</label>
+                        <input asp-for="Amount" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Revenue</label>
+                        <input asp-for="Revenue" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Contact Name</label>
+                        <input asp-for="ContactName" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Contact Number</label>
+                        <input asp-for="ContactMobile" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="row align-items-center mb-3">
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input asp-for="IsAccepted" class="form-check-input" />
+                            <label class="form-check-label">Is Accepted</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <label class="form-label">Rejection Reason (if any)</label>
+                        <input asp-for="RejectionReason" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                    <a asp-action="Proposals" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

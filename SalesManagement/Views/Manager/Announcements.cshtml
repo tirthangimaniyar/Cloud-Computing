@@ -1,0 +1,54 @@
+@model IEnumerable<SalesManagement.Models.Announcement>
+@{
+    ViewData["Title"] = "Sales Announcement Management";
+}
+
+<div class="container mt-4">
+    <div class="page-header-blue text-center">
+        <h2 class="title-management">Sales Announcement Management</h2>
+    </div>
+
+    <div class="card shadow-sm mb-5 col-md-8 mx-auto">
+        <div class="card-body">
+            <h5 class="card-title mb-4">Publish Announcement</h5>
+            <form asp-action="Announcements" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea name="Message" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="text" name="Date" class="form-control" placeholder="eg. 2016/01/29" required />
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Publish Announcement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive col-md-10 mx-auto">
+        <table class="table table-bordered table-hover">
+            <thead class="table-custom-header">
+                <tr>
+                    <th>Action</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ann in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="EditAnnouncement" asp-route-id="@ann.Id" class="text-primary">Edit</a> |
+                            <a asp-action="DeleteAnnouncement" asp-route-id="@ann.Id" class="text-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                        <td>@ann.Message</td>
+                        <td>@ann.Date</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

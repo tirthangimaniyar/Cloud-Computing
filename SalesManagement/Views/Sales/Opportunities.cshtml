@@ -1,0 +1,78 @@
+@model IEnumerable<SalesManagement.Models.Opportunity>
+@{
+    ViewData["Title"] = "Opportunities Management";
+}
+
+<div class="page-background" style="background-color: #f4f8fb; min-height: 100vh; padding-bottom: 50px;">
+    <div class="page-header px-4 py-3 text-center" style="background-color: #e0f0ff; border-bottom: 2px solid #b3d8f5;">
+        <h2 class="title-management" style="color: #1abc9c; font-size: 26px; font-weight: bold;">Opportunities Management</h2>
+    </div>
+
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-5 border-0 p-4" style="border-radius: 12px; background: white;">
+            <h5 class="mb-4" style="color: #1abc9c; font-size: 16px; font-weight: bold;">New Opportunity</h5>
+            <form asp-action="Opportunities" method="post">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-secondary small fw-bold">Client Name</label>
+                        <input type="text" name="ClientName" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-secondary small fw-bold">Opportunity Title</label>
+                        <input type="text" name="Title" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">Expected Revenue (₹)</label>
+                        <input type="number" name="ExpectedRevenue" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small fw-bold">Status</label>
+                        <select name="Status" class="form-select">
+                            <option value="Open">Open</option>
+                            <option value="Won">Won</option>
+                            <option value="Lost">Lost</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn w-100 text-white fw-bold" style="background-color: #1abc9c; border-radius: 6px;">Add Opportunity</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive rounded shadow-sm">
+            <table class="table table-hover mb-0" style="background: white;">
+                <thead style="background: #b3d8f5; color: #1a3a5c;">
+                    <tr>
+                        <th class="py-3 px-3 fw-bold">ID</th>
+                        <th class="py-3 px-3 fw-bold">Client Name</th>
+                        <th class="py-3 px-3 fw-bold">Title</th>
+                        <th class="py-3 px-3 fw-bold">Exp. Revenue</th>
+                        <th class="py-3 px-3 fw-bold">Status</th>
+                        <th class="py-3 px-3 fw-bold">Created Date</th>
+                        <th class="py-3 px-3 fw-bold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="py-3 px-3">@item.Id</td>
+                            <td class="py-3 px-3">@item.ClientName</td>
+                            <td class="py-3 px-3 fw-bold">@item.Title</td>
+                            <td class="py-3 px-3">₹@item.ExpectedRevenue.ToString("N0")</td>
+                            <td class="py-3 px-3">
+                                <span class="badge" style="background-color: @(item.Status == "Won" ? "#2ecc71" : item.Status == "Lost" ? "#e07070" : "#3498db"); border-radius: 20px;">@item.Status</span>
+                            </td>
+                            <td class="py-3 px-3 small">@item.CreatedDate.ToString("yyyy-MM-dd")</td>
+                            <td class="py-3 px-3">
+                                <a asp-action="ConvertOpportunity" asp-route-id="@item.Id" class="btn btn-sm btn-outline-success border-0 fw-bold me-2">Convert → Proposal</a>
+                                <a asp-action="DeleteOpportunity" asp-route-id="@item.Id" class="fw-bold" style="color: #e07070;" onclick="return confirm('Delete?')">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
